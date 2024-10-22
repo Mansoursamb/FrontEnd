@@ -1,4 +1,6 @@
 const galerie = document.querySelector(".gallery");
+const boutons = document.querySelector(".btn-container");
+const boutonTous = document.querySelector(".btn-tous");
 
 async function getWorks() {
   let data = [];
@@ -11,7 +13,6 @@ getWorks();
 
 async function showWorks() {
   const arrayWorks = await getWorks();
-  console.log(arrayWorks);
 
   arrayWorks.forEach((work) => {
     genererWorks(work);
@@ -30,4 +31,20 @@ function genererWorks(work) {
   figure.appendChild(figcaption);
   galerie.appendChild(figure);
 }
-genererWorks(work);
+async function getCategory() {
+  const resp = await fetch("http://localhost:5678/api/categories");
+  return await resp.json();
+}
+
+async function afficherCategoryButton() {
+  const categorys = await getCategory();
+  console.log(categorys);
+
+  categorys.forEach((category) => {
+    const btn = document.createElement("button");
+    btn.textContent = category.name;
+    btn.id = category.id;
+    boutons.appendChild(btn);
+  });
+}
+afficherCategoryButton();
