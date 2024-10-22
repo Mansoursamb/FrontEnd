@@ -1,7 +1,11 @@
 const galerie = document.querySelector(".gallery");
 const boutons = document.querySelector(".btn-container");
 const boutonTous = document.querySelector(".btn-tous");
-
+galerie.innerHTML = "";
+boutonTous.addEventListener("click", (e) => {
+  e.preventDefault();
+  showWorks();
+});
 async function getWorks() {
   let data = [];
   const url = "http://localhost:5678/api/works";
@@ -18,7 +22,7 @@ async function showWorks() {
     genererWorks(work);
   });
 }
-showWorks();
+
 function genererWorks(work) {
   const figure = document.createElement("figure");
   const img = document.createElement("img");
@@ -38,7 +42,6 @@ async function getCategory() {
 
 async function afficherCategoryButton() {
   const categorys = await getCategory();
-  console.log(categorys);
 
   categorys.forEach((category) => {
     const btn = document.createElement("button");
@@ -48,3 +51,32 @@ async function afficherCategoryButton() {
   });
 }
 afficherCategoryButton();
+
+async function filtrerCategory() {
+  const albums = await getWorks();
+  console.log(albums);
+
+  const buttons = document.querySelectorAll(".btn-container button");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      btnId = e.target.id;
+      console.log(btnId);
+
+      galerie.innerHTML = "";
+
+      if (btnId !== 0) {
+        const filtreEls = albums.filter((album) => {
+          return album.categoryId == btnId;
+        });
+        console.log(filtreEls);
+
+        filtreEls.forEach((work) => {
+          genererWorks(work);
+        });
+      }
+    });
+  });
+}
+filtrerCategory();
