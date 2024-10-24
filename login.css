@@ -7,7 +7,10 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  margin: 30px 0;
+  margin: 50px 0;
+}
+section {
+  margin: 50px 0;
 }
 
 h1 {
@@ -44,12 +47,6 @@ nav li {
 li:hover {
   color: #b1663c;
 }
-
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .login {
   display: flex;
   justify-content: center;
@@ -58,11 +55,13 @@ main {
   width: 400px;
   flex-direction: column;
   border-radius: 25px;
+  margin-bottom: 120px;
 }
 form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  justify-content: center;
 }
 input {
   height: 50px;
@@ -72,7 +71,7 @@ input {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-button {
+.connect {
   margin-top: 10px;
   background-color: rgb(9, 59, 42);
   border: none;
@@ -81,10 +80,16 @@ button {
   color: #edf1f8;
   width: 200px;
   margin-left: 50px;
+  cursor: pointer;
 }
-p {
+.login p {
   color: red;
 }
 .inputErrorLogin {
   border: 1px solid red;
+}
+footer nav ul {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2em;
 }

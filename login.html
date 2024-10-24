@@ -20,7 +20,7 @@
         <ul>
           <li>projets</li>
           <li>contact</li>
-          <li>login</li>
+          <li class="logout">login</li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -29,15 +29,23 @@
       <section class="login">
         <h2>Log in</h2>
         <p></p>
-        <form action="submit">
-          <label for="email">E-Mail</label>
+        <form action="submit" method="post">
+          <label for="email">E-mail</label>
           <input type="email" id="email" />
           <label for="password">Mot De Passe</label>
           <input type="password" id="password" />
-          <button>Se Connecter</button>
+          <button class="connect">Se Connecter</button>
         </form>
+        <a href="#"><h3>Mot de passe oublié?</h3></a>
       </section>
     </main>
+    <footer>
+      <nav>
+        <ul>
+          <li>Mentions Légales</li>
+        </ul>
+      </nav>
+    </footer>
     <script src="login.js" defer></script>
   </body>
 </html>
