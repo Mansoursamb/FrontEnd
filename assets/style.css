@@ -143,6 +143,7 @@ header {
 }
 section {
   margin: 50px 0;
+  position: relative;
 }
 
 h1 {
@@ -242,6 +243,12 @@ button {
   text-align: center;
   margin-bottom: 1em;
 }
+.modificateur {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
 .gallery {
   width: 100%;
   display: grid;

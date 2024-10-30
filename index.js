@@ -84,17 +84,17 @@ filtrerCategory();
 
 // Code de gestion de l'affichage après connexion
 const logged = window.sessionStorage.getItem("logged");
-const loggout = document.querySelector("li .logout");
-const btnContainer = document.querySelector(".btn-container button");
+const loggout = document.querySelector("li.logout");
+const btnContainer = document.querySelector(" .btn-containerAll");
 const modifierBtn = document.querySelector(".modifier");
-
+console.log(logged, loggout, btnContainer, modifierBtn);
 if (logged === "true") {
-  loggout.textContent = "Logout";
+  loggout.innerHTML = "Logout";
   if (btnContainer) btnContainer.innerHTML = ""; // Assurez-vous que le bouton existe avant de le manipuler
   if (modifierBtn) modifierBtn.textContent = "Modifier";
 
   loggout.addEventListener("click", () => {
-    window.sessionStorage.setItem("logged", "false");
+    window.sessionStorage.setItem("logged", "true");
     window.location.reload(); // Actualise la page après déconnexion
   });
 } else {
