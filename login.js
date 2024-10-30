@@ -23,6 +23,7 @@ form.addEventListener("submit", (e) => {
 
       if (response.ok) {
         // Si la connexion est réussie
+        localStorage.setItem("token", data.token);
         console.log("Utilisateur connecté :", data);
         // Par exemple, rediriger vers une autre page
         window.location.href = "/index.html";
