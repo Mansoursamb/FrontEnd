@@ -14,7 +14,7 @@ async function getWorks() {
 }
 async function init() {
   galerie.innerHTML = "";
-  let arrayWorks = await getWorks();
+  arrayWorks = await getWorks();
 
   showWorks();
   affichagePhotos();
@@ -65,7 +65,6 @@ async function filtrerCategory() {
       console.log(btnId);
 
       galerie.innerHTML = "";
-      console.log(arrayWorks);
 
       if (btnId !== 0) {
         const filtreEls = arrayWorks.filter((album) => {
@@ -122,6 +121,7 @@ galleryModal.addEventListener("click", (e) => {
     galleryModal.style.display = "none";
 });
 /*afficher les photos*/
+let arrayWorks;
 async function affichagePhotos() {
   photosList.innerHTML = "";
 
@@ -138,6 +138,45 @@ async function affichagePhotos() {
     figure.appendChild(img);
     photosList.appendChild(figure);
   });
+  deleteWork();
   return arrayWorks;
 }
+affichagePhotos();
+function deleteWork() {
+  const discardEls = document.querySelectorAll(".fa-trash-can");
+
+  discardEls.forEach((el) => {
+    el.addEventListener("click", async (e) => {
+      const workId = e.target.id; // Récupère l'ID de l'élément à supprimer
+      const token = localStorage.getItem("token"); // Récupérer le token de localStorage
+
+      try {
+        const response = await fetch(
+          `http://localhost:5678/api/works/${workId}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`, // Ajouter le token à l'en-tête
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          // Suppression réussie : mettez à jour l'affichage
+          e.target.closest("figure").remove();
+          console.log(`Work avec ID ${workId} supprimé.`);
+        } else {
+          console.error(
+            `Erreur lors de la suppression du work avec ID ${workId}`
+          );
+        }
+      } catch (error) {
+        console.error("Erreur lors de la requête DELETE :", error);
+      }
+    });
+  });
+}
+
+// Appeler la fonction d'affichage des photos
 affichagePhotos();
