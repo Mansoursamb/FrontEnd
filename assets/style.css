@@ -202,7 +202,7 @@ li:hover {
 #introduction p {
   margin-bottom: 0.5em;
 }
-.btn-container {
+.btn-containerAll {
   text-align: center;
   margin-bottom: 30px;
   display: flex;
@@ -250,9 +250,9 @@ button {
 .modificateur {
   position: absolute;
   width: auto;
-  right: 200px;
+  right: 300px;
   max-width: 100%;
-  top: -15px;
+  top: 0px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -260,8 +260,14 @@ button {
 
   width: 50px;
 }
+.modificateur i {
+  margin: 0;
+  padding: 0;
+}
 .modifier {
   border: none;
+  margin: 0;
+  padding-left: 10px;
 }
 .gallery {
   width: 100%;
@@ -321,8 +327,68 @@ footer nav ul {
   justify-content: flex-end;
   margin: 2em;
 }
-@media only screen and (max-width: 800px) {
+/*css pour modal*/
+.gallery-modal {
+  display: none;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.404);
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.modal-gallery {
+  background-color: white;
+  width: 50%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  position: relative;
+}
+.fa-xmark {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+.modal-gallery h2 {
+  color: black;
+  flex-wrap: nowrap;
+  margin-top: 20px;
+}
+.photo-gallery {
+  max-width: 100%;
+  max-height: fit-content;
+  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.fa-solid.fa-trash-can {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: white;
+  background-color: black;
+  padding: 5px;
+}
+.photo-gallery figure {
+  position: relative;
+}
+.photo-gallery img {
+  object-fit: cover;
+  height: 120px;
+  width: 120px;
+}
+@media only screen and (max-width: 1024px) {
   .modificateur {
-    right: 0;
+    right: 30px;
+  }
+  .modal-gallery {
+    width: 70%;
   }
 }

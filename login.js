@@ -20,13 +20,14 @@ form.addEventListener("submit", (e) => {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
         // Si la connexion est réussie
         localStorage.setItem("token", data.token);
         console.log("Utilisateur connecté :", data);
         // Par exemple, rediriger vers une autre page
-        window.location.href = "./index.html";
+        window.location.href = "index.html";
         window.sessionStorage.logged = true;
       } else {
         // Si la réponse est une erreur, afficher un message à l'utilisateur
