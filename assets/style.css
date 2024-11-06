@@ -216,9 +216,12 @@ li:hover {
   border: none;
   margin: 15px;
   font-size: large;
-
+  max-width: 30%;
   padding: 8px 30px;
   cursor: pointer;
+  justify-content: center;
+  margin: auto;
+
   &:focus {
     background-color: rgb(81, 148, 135);
   }
@@ -348,6 +351,7 @@ footer nav ul {
   align-items: center;
   border-radius: 5px;
   position: relative;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
 }
 .fa-xmark {
   position: absolute;
@@ -387,6 +391,103 @@ footer nav ul {
   height: 120px;
   width: 120px;
 }
+/*css pour modal ajout photos*/
+
+.addWorkModal {
+  display: flex;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.404);
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.modalAdd {
+  background-color: white;
+  width: 50%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+}
+.addWorkModal .fa-solid {
+  top: 20px;
+}
+.addWorkModal .fa-arrow-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.addWorkModal .fa-xmark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 80%;
+  gap: 10px;
+}
+form .containerFile {
+  background: rgba(232, 241, 246, 1);
+
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+}
+.containerFile label {
+  background-color: rgba(203, 214, 220, 1);
+  color: rgba(48, 102, 133, 1);
+  border-radius: 25px;
+  padding: 10px 20px 10px 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.containerFile input {
+  display: none;
+}
+.addWorkModal .fa-image {
+  font-size: 4rem;
+  padding: 10px;
+}
+.containerFile img {
+  display: none;
+  max-width: 100%;
+  height: 100%;
+}
+.ajout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ajout input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.ajout select {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  height: 50px;
+  font-size: 1.2em;
+}
+
 @media only screen and (max-width: 1024px) {
   .modificateur {
     right: 30px;

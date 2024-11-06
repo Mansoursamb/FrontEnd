@@ -29,6 +29,29 @@
         <button>Ajouter photo</button>
       </div>
     </div>
+    <div class="addWorkModal">
+      <div class="modalAdd">
+        <i class="fa-solid fa-arrow-left"></i>
+        <i class="fa-solid fa-xmark"></i>
+        <h2>Ajout photo</h2>
+        <form>
+          <div class="containerFile">
+            <i class="fa-regular fa-image"></i>
+            <label for="file">+ Ajouter photo</label>
+            <input type="file" id="file" name="imageUrl" />
+            <img src="#" alt="apercu image" />
+            <p>jpg,png: 4 mo max</p>
+          </div>
+          <div class="ajout">
+            <label for="title">Titre</label>
+            <input type="text" id="title" name="title" />
+            <label for="category">Category</label>
+            <select name="category_id" id="category"></select>
+            <button class="btn-tous">Valider</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
