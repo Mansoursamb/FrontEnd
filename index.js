@@ -2,10 +2,7 @@ const galerie = document.querySelector(".gallery");
 const boutons = document.querySelector(".btn-containerAll");
 const boutonTous = document.querySelector(".btn-tous");
 init();
-boutonTous.addEventListener("click", (e) => {
-  e.preventDefault();
-  showWorks();
-});
+
 async function getWorks() {
   const url = "http://localhost:5678/api/works";
   const fetcher = await fetch(url);
@@ -24,7 +21,10 @@ async function showWorks() {
     genererWorks(work);
   });
 }
-
+boutonTous.addEventListener("click", (e) => {
+  e.preventDefault();
+  showWorks();
+});
 function genererWorks(work) {
   const figure = document.createElement("figure");
   const img = document.createElement("img");
@@ -56,8 +56,8 @@ async function afficherCategoryButton() {
 afficherCategoryButton();
 
 async function filtrerCategory() {
-  const buttons = document.querySelectorAll(".btn-container button");
-
+  const buttons = document.querySelectorAll(".btn-containerAll ");
+  console.log(buttons);
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
@@ -124,22 +124,25 @@ galleryModal.addEventListener("click", (e) => {
 let arrayWorks;
 async function affichagePhotos() {
   photosList.innerHTML = "";
-
-  arrayWorks.forEach((work) => {
-    const figure = document.createElement("figure");
-    const img = document.createElement("img");
-    const span = document.createElement("span");
-    const poubelle = document.createElement("i");
-    poubelle.classList.add("fa-solid", "fa-trash-can");
-    poubelle.id = work.id;
-    img.src = work.imageUrl;
-    span.appendChild(poubelle);
-    figure.appendChild(span);
-    figure.appendChild(img);
-    photosList.appendChild(figure);
-  });
-  deleteWork();
-  return arrayWorks;
+  if (arrayWorks && arrayWorks.length > 0) {
+    arrayWorks.forEach((work) => {
+      const figure = document.createElement("figure");
+      const img = document.createElement("img");
+      const span = document.createElement("span");
+      const poubelle = document.createElement("i");
+      poubelle.classList.add("fa-solid", "fa-trash-can");
+      poubelle.id = work.id;
+      img.src = work.imageUrl;
+      span.appendChild(poubelle);
+      figure.appendChild(span);
+      figure.appendChild(img);
+      photosList.appendChild(figure);
+    });
+    deleteWork();
+    return arrayWorks;
+  } else {
+    console.error("arrayWorks est vide ou non défini.");
+  }
 }
 affichagePhotos();
 function deleteWork() {
@@ -224,3 +227,108 @@ inputFile.addEventListener("change", () => {
     reader.readAsDataURL(file);
   }
 });
+// recuperer les option categories ***creer liste option pour select
+
+async function displayOptions() {
+  const select = document.querySelector(".ajout select");
+  const categorys = await getCategory();
+  categorys.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    select.appendChild(option);
+  });
+}
+displayOptions();
+// Faire un post ajouter une photo
+async function addWork() {
+  const isValid = await checkTokenValidity();
+  if (!isValid) {
+    alert("Votre session a expiré, veuillez vous reconnecter.");
+    return;
+  } else {
+    const form = document.querySelector(".addWorkModal form");
+    const title = document.querySelector(".ajout #title").value;
+    const category = document.querySelector(".ajout #category").value;
+    const imageInput = document.querySelector(".containerFile #file");
+    const token = localStorage.getItem("token");
+
+    if (!imageInput.files[0]) {
+      console.error("Aucune image sélectionnée.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("category", category);
+    formData.append("image", imageInput.files[0]);
+    console.log(formData);
+    console.log(formData.get("title")),
+      console.log(formData.get("category")),
+      console.log(formData.get("image"));
+
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Photo ajoutée avec succès :", data);
+        affichagePhotos(); // Rafraîchir la liste des photos après ajout
+      } else {
+        const errorData = await response.json();
+        console.error(
+          "Erreur lors de l'ajout de la photo :",
+          errorData.message || response.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Erreur lors de la requête POST :", error);
+    }
+  }
+}
+// Appel initial pour afficher les photos
+affichagePhotos();
+
+// Écouteur d'événement pour l'ajout de photo
+document.querySelector(".addWorkModal form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  addWork();
+});
+// check token validity
+async function checkTokenValidity() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.error("Aucun token trouvé.");
+    return false;
+  }
+
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      console.log("Token valide.");
+      return true;
+    } else {
+      console.error("Token invalide ou expiré.");
+      return false;
+    }
+  } catch (error) {
+    console.error("Erreur lors de la vérification du token :", error);
+    return false;
+  }
+}
+
+// Appel de la fonction pour vérifier le token
+checkTokenValidity();
