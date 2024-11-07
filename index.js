@@ -68,7 +68,7 @@ async function filtrerCategory() {
 
       if (btnId !== 0) {
         const filtreEls = arrayWorks.filter((album) => {
-          return album.categoryId == btnId;
+          return album.category.id == btnId;
         });
 
         filtreEls.forEach((work) => {
@@ -180,3 +180,47 @@ function deleteWork() {
 
 // Appeler la fonction d'affichage des photos
 affichagePhotos();
+// faire apparaiter une deuxieme modale
+
+const augmenteBtn = document.querySelector(".augmenter");
+const addWorkModal = document.querySelector(".addWorkModal");
+const backEl = document.querySelector(".fa-arrow-left");
+const closeEl = document.querySelector(".addWorkModal .fa-xmark");
+
+augmenteBtn.addEventListener("click", () => {
+  galleryModal.style.display = "none";
+  addWorkModal.style.display = "flex";
+});
+backEl.addEventListener("click", () => {
+  galleryModal.style.display = "flex";
+  addWorkModal.style.display = "none";
+});
+closeEl.addEventListener("click", () => {
+  galleryModal.style.display = "none";
+  addWorkModal.style.display = "none";
+});
+
+// previsualisation image sur input file
+const previewImg = document.querySelector(".containerFile img");
+const inputFile = document.querySelector(".containerFile input");
+const labelFile = document.querySelector(".containerFile label");
+const inconFile = document.querySelector(".containerFile .fa-image ");
+const pFile = document.querySelector(".containerFile p");
+// ecouter les changements sur l input
+console.log(previewImg, inputFile, labelFile, inconFile, pFile);
+
+inputFile.addEventListener("change", () => {
+  const file = inputFile.files[0];
+  console.log(file);
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      previewImg.src = e.target.result;
+      previewImg.style.display = "flex";
+      labelFile.style.display = "none";
+      inconFile.style.display = "none";
+      pFile.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  }
+});
