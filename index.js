@@ -89,13 +89,17 @@ const logged = window.sessionStorage.getItem("logged");
 const loggout = document.querySelector("a li.logout");
 const btnContainer = document.querySelector(" .btn-containerAll");
 const modifierBtn = document.querySelector(".modifier");
+const penItem = document.querySelector(".modificateur .fa-pen-to-square");
+const divEdit = document.querySelector(".edit");
+
 console.log(loggout, logged, btnContainer, modifierBtn);
 
 if (logged === "true") {
   loggout.innerHTML = "Logout";
   if (btnContainer) btnContainer.style.display = "none"; // Assurez-vous que le bouton existe avant de le manipuler
   if (modifierBtn) modifierBtn.textContent = "modifier";
-
+  penItem.style.display = "flex";
+  divEdit.style.display = "flex";
   loggout.addEventListener("click", () => {
     window.sessionStorage.setItem("logged", "false");
     window.location.reload(); // Actualise la page après déconnexion
