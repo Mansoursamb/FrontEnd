@@ -117,6 +117,10 @@ const photosList = document.querySelector(".photo-gallery");
 modifierBtn.addEventListener("click", () => {
   galleryModal.style.display = "flex";
 });
+divEdit.addEventListener("click", () => {
+  galleryModal.style.display = "flex";
+});
+
 closeElement.addEventListener("click", () => {
   galleryModal.style.display = "none";
 });

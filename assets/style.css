@@ -350,6 +350,7 @@ footer nav ul {
 }
 /*css pour modal*/
 .gallery-modal {
+  top: 0;
   display: none;
   position: fixed;
   height: 100%;
@@ -360,12 +361,12 @@ footer nav ul {
   z-index: 1;
 }
 .modal-gallery {
-  background-color: white;
-  width: 50%;
-  height: 80%;
   display: flex;
+  background-color: white;
+  max-height: 80%;
+  max-width: 70%;
+  padding: 50px;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   border-radius: 5px;
   position: relative;
@@ -383,13 +384,13 @@ footer nav ul {
   margin-top: 20px;
 }
 .photo-gallery {
-  max-width: 100%;
-  max-height: fit-content;
   gap: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: 100%;
 }
+
 .fa-solid.fa-trash-can {
   position: absolute;
   top: 5px;
@@ -406,17 +407,20 @@ footer nav ul {
 }
 .photo-gallery img {
   object-fit: cover;
-  height: 120px;
-  width: 120px;
+  height: 90px;
+  width: 90px;
 }
 .augmenter {
-  background-color: rgb(81, 148, 135);
+  background-color: rgb(18, 102, 85);
   color: white;
   border: none;
+  width: 200px;
+  margin-top: 30px;
 }
 /*css pour modal ajout photos*/
 
 .addWorkModal {
+  top: 0;
   display: none;
   position: fixed;
   height: 100%;
@@ -425,23 +429,24 @@ footer nav ul {
   justify-content: center;
   align-items: center;
   z-index: 1;
+  text-align: center;
 }
 .modalAdd {
   background-color: white;
-  width: 50%;
-  height: 100%;
-  margin-top: 0;
+  width: 40%;
+  height: 80%;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-radius: 5px;
   position: relative;
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  padding: 20px;
 }
 .modalAdd h2 {
-  margin-top: 50px;
-  margin-bottom: 0px;
+  padding: 30px;
 }
 .addWorkModal .fa-solid {
   top: 20px;
@@ -461,24 +466,25 @@ footer nav ul {
   cursor: pointer;
 }
 form {
+  padding-top: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 70%;
   width: 70%;
-  gap: 10px;
-  padding-bottom: 80px;
+  height: 80%;
 }
 form .containerFile {
   background: rgba(232, 241, 246, 1);
 
   width: 100%;
-  max-height: 40%;
+  max-height: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 .containerFile label {
   background-color: rgba(203, 214, 220, 1);
@@ -505,6 +511,7 @@ form .containerFile {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  text-align: left;
 }
 .ajout input {
   height: 50px;
@@ -518,15 +525,20 @@ form .containerFile {
   height: 50px;
   font-size: 1.2em;
 }
+.ruler {
+  border-bottom: 2px solid rgb(170, 165, 165);
+  padding: 20px;
+  width: 100%;
+}
 .btn-tous-valide {
-  width: 30%;
+  width: 200px;
   margin: auto;
-  margin-top: 20px;
+
   background-color: gray;
   border: none;
   justify-content: center;
   &:focus {
-    background-color: rgb(81, 148, 135);
+    background-color: rgb(10, 49, 41);
   }
   color: white;
 }
@@ -536,7 +548,12 @@ form .containerFile {
     right: 30px;
   }
   .modal-gallery {
-    width: 80%;
-    height: 100%;
+    justify-content: center;
+  }
+  .photo-gallery {
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 300px;
   }
 }
