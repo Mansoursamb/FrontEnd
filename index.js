@@ -23,7 +23,7 @@ async function showWorks() {
 }
 boutonTous.addEventListener("click", (e) => {
   e.preventDefault();
-  showWorks();
+  init();
 });
 function genererWorks(work) {
   const figure = document.createElement("figure");
