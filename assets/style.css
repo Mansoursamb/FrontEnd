@@ -381,7 +381,7 @@ footer nav ul {
 .modal-gallery h2 {
   color: black;
   flex-wrap: nowrap;
-  margin-top: 20px;
+  margin: 20px;
 }
 .photo-gallery {
   gap: 10px;
@@ -434,7 +434,7 @@ footer nav ul {
 .modalAdd {
   background-color: white;
   width: 40%;
-  height: 80%;
+  height: 90%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
@@ -477,7 +477,7 @@ form .containerFile {
   background: rgba(232, 241, 246, 1);
 
   width: 100%;
-  max-height: 60%;
+  max-height: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -503,8 +503,8 @@ form .containerFile {
   color: rgba(0, 0, 0, 0.103);
 }
 .containerFile img {
-  display: none;
-  max-width: 100%;
+  object-fit: cover;
+  width: 100%;
   height: 100%;
 }
 .ajout {

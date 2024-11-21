@@ -1,6 +1,7 @@
 const galerie = document.querySelector(".gallery");
 const boutons = document.querySelector(".btn-containerAll");
 const boutonTous = document.querySelector(".btn-tous");
+let arrayWorks;
 init();
 
 async function getWorks() {
@@ -129,7 +130,7 @@ galleryModal.addEventListener("click", (e) => {
     galleryModal.style.display = "none";
 });
 /*afficher les photos*/
-let arrayWorks;
+
 async function affichagePhotos() {
   photosList.innerHTML = "";
   if (arrayWorks && arrayWorks.length > 0) {
@@ -152,7 +153,7 @@ async function affichagePhotos() {
     console.error("arrayWorks est vide ou non défini.");
   }
 }
-affichagePhotos();
+
 function deleteWork() {
   const discardEls = document.querySelectorAll(".fa-trash-can");
 
@@ -176,6 +177,10 @@ function deleteWork() {
         if (response.ok) {
           // Suppression réussie : mettez à jour l'affichage
           e.target.closest("figure").remove();
+          arrayWorks = arrayWorks.filter((id) => {
+            return id !== workId;
+          });
+          init();
           console.log(`Work avec ID ${workId} supprimé.`);
         } else {
           console.error(
@@ -190,7 +195,7 @@ function deleteWork() {
 }
 
 // Appeler la fonction d'affichage des photos
-affichagePhotos();
+
 // faire apparaiter une deuxieme modale
 
 const augmenteBtn = document.querySelector(".augmenter");
@@ -262,7 +267,7 @@ async function addWork() {
     const token = localStorage.getItem("token");
 
     if (!imageInput.files[0]) {
-      console.error("Aucune image sélectionnée.");
+      alert("Aucune image sélectionnée.");
       return;
     }
 
@@ -287,7 +292,7 @@ async function addWork() {
       if (response.ok) {
         const data = await response.json();
         console.log("Photo ajoutée avec succès :", data);
-        affichagePhotos(); // Rafraîchir la liste des photos après ajout
+        init(); // Rafraîchir la liste des photos après ajout
       } else {
         const errorData = await response.json();
         console.error(
@@ -307,6 +312,9 @@ affichagePhotos();
 document.querySelector(".addWorkModal form").addEventListener("submit", (e) => {
   e.preventDefault();
   addWork();
+  init();
+  form = "";
+  !imageInput.files[0];
 });
 // check token validity
 async function checkTokenValidity() {
