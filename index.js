@@ -92,6 +92,7 @@ const btnContainer = document.querySelector(" .btn-containerAll");
 const modifierBtn = document.querySelector(".modifier");
 const penItem = document.querySelector(".modificateur .fa-pen-to-square");
 const divEdit = document.querySelector(".edit");
+const span = document.querySelector(".edit span");
 
 console.log(loggout, logged, btnContainer, modifierBtn);
 
@@ -118,6 +119,7 @@ const photosList = document.querySelector(".photo-gallery");
 modifierBtn.addEventListener("click", () => {
   galleryModal.style.display = "flex";
 });
+span.textContent = span.textContent.toLowerCase();
 divEdit.addEventListener("click", () => {
   galleryModal.style.display = "flex";
 });
@@ -149,8 +151,6 @@ async function affichagePhotos() {
     });
     deleteWork();
     return arrayWorks;
-  } else {
-    console.error("arrayWorks est vide ou non défini.");
   }
 }
 
@@ -260,7 +260,7 @@ async function addWork() {
     alert("Votre session a expiré, veuillez vous reconnecter.");
     return;
   } else {
-    const form = document.querySelector(".addWorkModal form");
+    let form = document.querySelector(".addWorkModal form");
     const title = document.querySelector(".ajout #title").value;
     const category = document.querySelector(".ajout #category").value;
     const imageInput = document.querySelector(".containerFile #file");
@@ -313,8 +313,9 @@ document.querySelector(".addWorkModal form").addEventListener("submit", (e) => {
   e.preventDefault();
   addWork();
   init();
-  form = "";
-  !imageInput.files[0];
+
+  document.querySelector(".addWorkModal").style.display = "none";
+  form.textContent = "";
 });
 // check token validity
 async function checkTokenValidity() {
