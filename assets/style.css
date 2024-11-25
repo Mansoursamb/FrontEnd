@@ -293,9 +293,12 @@ button {
   padding: 0;
 }
 .modifier {
-  border: none;
   margin: 0;
-  padding-left: 10px;
+  border: none;
+  padding: 8px 50px;
+
+  justify-content: center;
+  display: flex;
 }
 .gallery {
   width: 100%;
@@ -513,6 +516,7 @@ form .containerFile {
   object-fit: cover;
   width: 100%;
   height: 100%;
+  display: none;
 }
 .ajout {
   display: flex;

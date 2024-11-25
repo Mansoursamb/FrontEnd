@@ -194,8 +194,6 @@ function deleteWork() {
   });
 }
 
-// Appeler la fonction d'affichage des photos
-
 // faire apparaiter une deuxieme modale
 
 const augmenteBtn = document.querySelector(".augmenter");
@@ -261,17 +259,21 @@ async function addWork() {
     return;
   } else {
     let form = document.querySelector(".addWorkModal form");
-    const title = document.querySelector(".ajout #title").value;
-    const category = document.querySelector(".ajout #category").value;
-    const imageInput = document.querySelector(".containerFile #file");
+    let title = document.querySelector(".ajout #title").value;
+    let category = document.querySelector(".ajout #category").value;
+    let imageInput = document.querySelector(".containerFile #file");
     const token = localStorage.getItem("token");
 
     if (!imageInput.files[0]) {
       alert("Aucune image sélectionnée.");
       return;
     }
+    if (!title) {
+      alert("Aucun titre sélectionné.");
+      return;
+    }
 
-    const formData = new FormData();
+    let formData = new FormData();
     formData.append("title", title);
     formData.append("category", category);
     formData.append("image", imageInput.files[0]);
@@ -305,18 +307,29 @@ async function addWork() {
     }
   }
 }
-// Appel initial pour afficher les photos
-affichagePhotos();
 
 // Écouteur d'événement pour l'ajout de photo
 document.querySelector(".addWorkModal form").addEventListener("submit", (e) => {
   e.preventDefault();
-  addWork();
-  init();
+  addWork(); // Fonction d'ajout
+  init(); // Réinitialise les affichages si nécessaire
+  /*
+   previewImg = document.querySelector(".containerFile img");
+  // Réinitialiser les valeurs des champs
+  document.querySelector(".ajout #title").value = ""; // Réinitialise le champ titre
+  document.querySelector(".ajout #category").value = ""; // Réinitialise le champ catégorie
+  document.querySelector(".containerFile #file").value = ""; // Réinitialise le champ file
 
+  // Réinitialiser l'aperçu de l'image (si affiché)
+  previewImg = document.querySelector(".containerFile img");
+  if (previewImg) {
+    previewImg.style.display = "none";
+   previewImg.src = "";
+  }*/
+  // Fermer la modale
   document.querySelector(".addWorkModal").style.display = "none";
-  form.textContent = "";
 });
+
 // check token validity
 async function checkTokenValidity() {
   const token = localStorage.getItem("token");
