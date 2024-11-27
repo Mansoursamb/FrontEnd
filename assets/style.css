@@ -233,9 +233,9 @@ li:hover {
   flex-wrap: wrap;
 }
 .btn-tous {
-  background-color: rgba(29, 97, 84, 1);
-  color: white;
-  border: none;
+  background-color: white;
+  color: rgba(29, 97, 84, 1);
+  border: 1px solid rgba(29, 97, 84, 1);
 
   font-size: large;
   margin-left: 40px;
@@ -244,7 +244,8 @@ li:hover {
   justify-content: center;
 
   &:focus {
-    background-color: rgb(81, 148, 135);
+    background-color: rgba(29, 97, 84, 1);
+    color: white;
   }
 }
 button {

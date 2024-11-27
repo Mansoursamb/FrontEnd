@@ -1,6 +1,7 @@
 const galerie = document.querySelector(".gallery");
 const boutons = document.querySelector(".btn-containerAll");
 const boutonTous = document.querySelector(".btn-tous");
+
 let arrayWorks;
 init();
 
@@ -10,34 +11,37 @@ async function getWorks() {
   arrayWorks = await fetcher.json();
   return arrayWorks;
 }
+
 async function init() {
   galerie.innerHTML = "";
   arrayWorks = await getWorks();
-
   showWorks();
   affichagePhotos();
 }
+
 async function showWorks() {
   arrayWorks.forEach((work) => {
     genererWorks(work);
   });
 }
+
 boutonTous.addEventListener("click", (e) => {
   e.preventDefault();
   init();
 });
+
 function genererWorks(work) {
   const figure = document.createElement("figure");
   const img = document.createElement("img");
   const figcaption = document.createElement("figcaption");
   img.src = work.imageUrl;
   figcaption.textContent = work.title;
-
   galerie.classList.add("gallery");
   figure.appendChild(img);
   figure.appendChild(figcaption);
   galerie.appendChild(figure);
 }
+
 async function getCategory() {
   const resp = await fetch("http://localhost:5678/api/categories");
   return await resp.json();
@@ -45,8 +49,6 @@ async function getCategory() {
 
 async function afficherCategoryButton() {
   const categorys = await getCategory();
-  console.log(boutons);
-
   categorys.forEach((category) => {
     const btn = document.createElement("button");
     btn.textContent = category.name;
@@ -63,10 +65,7 @@ async function filtrerCategory() {
     button.addEventListener("click", (e) => {
       e.preventDefault();
       btnId = e.target.id;
-      console.log(btnId);
-
       galerie.innerHTML = "";
-
       if (btnId !== 0) {
         const filtreEls = arrayWorks.filter((album) => {
           return album.category.id == btnId;
@@ -94,8 +93,6 @@ const penItem = document.querySelector(".modificateur .fa-pen-to-square");
 const divEdit = document.querySelector(".edit");
 const span = document.querySelector(".edit span");
 
-console.log(loggout, logged, btnContainer, modifierBtn);
-
 if (logged === "true") {
   loggout.innerHTML = "Logout";
   if (btnContainer) btnContainer.style.display = "none"; // Assurez-vous que le bouton existe avant de le manipuler
@@ -109,6 +106,7 @@ if (logged === "true") {
 } else {
   console.log("Utilisateur non connecté.");
 }
+
 /*affichage modal*/
 const modifBouton = document.querySelector(".modificateur");
 const modalGallery = document.querySelector(".modal-gallery");
@@ -119,7 +117,9 @@ const photosList = document.querySelector(".photo-gallery");
 modifierBtn.addEventListener("click", () => {
   galleryModal.style.display = "flex";
 });
+
 span.textContent = span.textContent.toLowerCase();
+
 divEdit.addEventListener("click", () => {
   galleryModal.style.display = "flex";
 });
@@ -127,6 +127,7 @@ divEdit.addEventListener("click", () => {
 closeElement.addEventListener("click", () => {
   galleryModal.style.display = "none";
 });
+
 galleryModal.addEventListener("click", (e) => {
   if (e.target.className === "gallery-modal")
     galleryModal.style.display = "none";
@@ -205,10 +206,12 @@ augmenteBtn.addEventListener("click", () => {
   galleryModal.style.display = "none";
   addWorkModal.style.display = "flex";
 });
+
 backEl.addEventListener("click", () => {
   galleryModal.style.display = "flex";
   addWorkModal.style.display = "none";
 });
+
 closeEl.addEventListener("click", () => {
   galleryModal.style.display = "none";
   addWorkModal.style.display = "none";
@@ -220,8 +223,8 @@ const inputFile = document.querySelector(".containerFile input");
 const labelFile = document.querySelector(".containerFile label");
 const inconFile = document.querySelector(".containerFile .fa-image ");
 const pFile = document.querySelector(".containerFile p");
+
 // ecouter les changements sur l input
-console.log(previewImg, inputFile, labelFile, inconFile, pFile);
 
 inputFile.addEventListener("change", () => {
   const file = inputFile.files[0];
@@ -251,6 +254,7 @@ async function displayOptions() {
   });
 }
 displayOptions();
+
 // Faire un post ajouter une photo
 async function addWork() {
   const isValid = await checkTokenValidity();
@@ -277,10 +281,6 @@ async function addWork() {
     formData.append("title", title);
     formData.append("category", category);
     formData.append("image", imageInput.files[0]);
-    console.log(formData);
-    console.log(formData.get("title")),
-      console.log(formData.get("category")),
-      console.log(formData.get("image"));
 
     try {
       const response = await fetch("http://localhost:5678/api/works", {
@@ -311,7 +311,9 @@ async function addWork() {
 // Écouteur d'événement pour l'ajout de photo
 document.querySelector(".addWorkModal form").addEventListener("submit", (e) => {
   e.preventDefault();
+
   addWork(); // Fonction d'ajout
+
   init(); // Réinitialise les affichages si nécessaire
   /*
    previewImg = document.querySelector(".containerFile img");
