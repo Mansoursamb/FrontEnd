@@ -60,7 +60,7 @@ afficherCategoryButton();
 
 async function filtrerCategory() {
   const buttons = document.querySelectorAll(".btn-containerAll ");
-  console.log(buttons);
+
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
@@ -198,7 +198,7 @@ function deleteWork() {
 // faire apparaiter une deuxieme modale
 
 const augmenteBtn = document.querySelector(".augmenter");
-const addWorkModal = document.querySelector(".addWorkModal");
+let addWorkModal = document.querySelector(".addWorkModal");
 const backEl = document.querySelector(".fa-arrow-left");
 const closeEl = document.querySelector(".addWorkModal .fa-xmark");
 
@@ -218,7 +218,7 @@ closeEl.addEventListener("click", () => {
 });
 
 // previsualisation image sur input file
-const previewImg = document.querySelector(".containerFile img");
+let previewImg = document.querySelector(".containerFile img");
 const inputFile = document.querySelector(".containerFile input");
 const labelFile = document.querySelector(".containerFile label");
 const inconFile = document.querySelector(".containerFile .fa-image ");
@@ -228,7 +228,7 @@ const pFile = document.querySelector(".containerFile p");
 
 inputFile.addEventListener("change", () => {
   const file = inputFile.files[0];
-  console.log(file);
+
   if (file) {
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -256,81 +256,137 @@ async function displayOptions() {
 displayOptions();
 
 // Faire un post ajouter une photo
+
 async function addWork() {
+  // Vérifie la validité du token
   const isValid = await checkTokenValidity();
   if (!isValid) {
     alert("Votre session a expiré, veuillez vous reconnecter.");
     return;
-  } else {
-    let form = document.querySelector(".addWorkModal form");
-    let title = document.querySelector(".ajout #title").value;
-    let category = document.querySelector(".ajout #category").value;
-    let imageInput = document.querySelector(".containerFile #file");
-    const token = localStorage.getItem("token");
+  }
 
-    if (!imageInput.files[0]) {
-      alert("Aucune image sélectionnée.");
-      return;
+  // Sélection des champs
+  const form = document.querySelector(".addWorkModal form");
+  const title = document.querySelector(".ajout #title").value.trim();
+  const category = document.querySelector(".ajout #category").value;
+  const imageInput = document.querySelector(".containerFile #file");
+  const token = localStorage.getItem("token");
+
+  // Vérification des champs
+  if (!imageInput.files || !imageInput.files[0]) {
+    alert("Aucune image sélectionnée.");
+    return;
+  }
+  if (!title) {
+    alert("Veuillez saisir un titre.");
+    return;
+  }
+
+  // Préparation des données pour l'API
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("category", category);
+  formData.append("image", imageInput.files[0]);
+
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`, // Ajout du token
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      init(); // Actualise l'affichage des photos
+      reInit(); // Réinitialise le formulaire
+    } else {
+      const errorData = await response.json();
+      console.error(
+        "Erreur lors de l'ajout de la photo :",
+        errorData.message || response.statusText
+      );
     }
-    if (!title) {
-      alert("Aucun titre sélectionné.");
-      return;
-    }
-
-    let formData = new FormData();
-    formData.append("title", title);
-    formData.append("category", category);
-    formData.append("image", imageInput.files[0]);
-
-    try {
-      const response = await fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Photo ajoutée avec succès :", data);
-        init(); // Rafraîchir la liste des photos après ajout
-      } else {
-        const errorData = await response.json();
-        console.error(
-          "Erreur lors de l'ajout de la photo :",
-          errorData.message || response.statusText
-        );
-      }
-    } catch (error) {
-      console.error("Erreur lors de la requête POST :", error);
-    }
+  } catch (error) {
+    console.error("Erreur lors de la requête POST :", error);
   }
 }
 
-// Écouteur d'événement pour l'ajout de photo
+// Écouteur d'événement pour la soumission du formulaire
 document.querySelector(".addWorkModal form").addEventListener("submit", (e) => {
   e.preventDefault();
+  addWork(); // Ajout de la photo
+});
 
-  addWork(); // Fonction d'ajout
+function reInit() {
+  const titleInput = document.querySelector(".ajout #title");
+  const categoryInput = document.querySelector(".ajout #category");
+  const previewImg = document.querySelector(".containerFile img");
+  const labelFile = document.querySelector(".containerFile label");
+  const inconFile = document.querySelector(".containerFile .fa-image");
+  const pFile = document.querySelector(".containerFile p");
 
-  init(); // Réinitialise les affichages si nécessaire
-  /*
-   previewImg = document.querySelector(".containerFile img");
-  // Réinitialiser les valeurs des champs
-  document.querySelector(".ajout #title").value = ""; // Réinitialise le champ titre
-  document.querySelector(".ajout #category").value = ""; // Réinitialise le champ catégorie
-  document.querySelector(".containerFile #file").value = ""; // Réinitialise le champ file
+  // Réinitialiser les champs
+  titleInput.value = "";
+  categoryInput.value = "";
+  resetFileInput(); // Réinitialise le champ fichier
 
-  // Réinitialiser l'aperçu de l'image (si affiché)
-  previewImg = document.querySelector(".containerFile img");
+  // Réinitialiser l'aperçu de l'image et ses éléments
   if (previewImg) {
     previewImg.style.display = "none";
-   previewImg.src = "";
-  }*/
+    previewImg.src = "";
+  }
+  if (labelFile) labelFile.style.display = "flex";
+  if (inconFile) inconFile.style.display = "flex";
+  if (pFile) pFile.style.display = "flex";
+
   // Fermer la modale
-  document.querySelector(".addWorkModal").style.display = "none";
-});
+  const addWorkModal = document.querySelector(".addWorkModal");
+  if (addWorkModal) {
+    addWorkModal.style.display = "none";
+  }
+}
+
+function resetFileInput() {
+  const fileInput = document.querySelector(".containerFile #file");
+  const parent = fileInput.parentElement;
+
+  // Crée un nouvel élément input
+  const newFileInput = document.createElement("input");
+  newFileInput.type = "file";
+  newFileInput.id = fileInput.id;
+  newFileInput.name = fileInput.name;
+  newFileInput.className = fileInput.className; // Copie les classes
+
+  // Ajoute l'événement `change` pour la prévisualisation
+  newFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    const previewImg = document.querySelector(".containerFile img");
+    const labelFile = document.querySelector(".containerFile label");
+    const inconFile = document.querySelector(".containerFile .fa-image");
+    const pFile = document.querySelector(".containerFile p");
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        if (previewImg) {
+          previewImg.src = event.target.result;
+          previewImg.style.display = "flex";
+        }
+        if (labelFile) labelFile.style.display = "none";
+        if (inconFile) inconFile.style.display = "none";
+        if (pFile) pFile.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Remplace l'ancien input
+  parent.replaceChild(newFileInput, fileInput);
+
+  console.log("Champ fichier réinitialisé et événement réattaché.");
+}
 
 // check token validity
 async function checkTokenValidity() {
